@@ -1,0 +1,9 @@
+- hosts: 'workers, masters'
+  become: yes
+
+  tasks:
+  - name: allow 'kube' to use sudo without needing a password
+    lineinfile:
+      dest: /etc/hosts
+      line: "{{ hostvars[ item ]['ansible_eth1']['ipv4']['address'] }} {{ item }}"
+    with_items:  "{{ groups['all'] }}"
